@@ -2,7 +2,12 @@
 
 ## Descrição Geral
 
-Para o Sistema de Reserva de Hotel, considerando que o domínio é um **único hotel** e o foco está em manutenibilidade, organização e facilidade de implantação, a arquitetura proposta é um **Monolito Modular em Camadas (Layered Modular Monolith)**.
+Para o Sistema de Reserva de Hotel, considerando que o domínio é um **único hotel** e o foco está em manutenibilidade, organização e facilidade de implantação, a arquitetura definida é um **Monolito Modular em Camadas (Layered Modular Monolith)**.
+
+### Stack Tecnológica Definida
+- **Frontend**: React (SPA) com TypeScript.
+- **Backend**: Node.js com TypeScript (Framework NestJS ou Express).
+- **Banco de Dados**: PostgreSQL.
 
 ### Por que Monolito Modular?
 Uma arquitetura de microserviços adicionaria complexidade desnecessária (deploy, comunicação entre serviços, latência) para o escopo de um único hotel. O monolito modular permite:
@@ -19,7 +24,7 @@ O sistema será dividido em duas grandes partes físicas: **Frontend** (Cliente)
 
 ### 1. Frontend (Single Page Application - SPA)
 Responsável pela interface com o usuário (Recepcionista).
-- **Tecnologia Sugerida**: React.js, Vue.js ou Angular.
+- **Tecnologia**: **React (TypeScript)**.
 - **Responsabilidades**:
   - Renderização da UI.
   - Consumo da API REST do Backend.
@@ -28,8 +33,8 @@ Responsável pela interface com o usuário (Recepcionista).
 
 ### 2. Backend (API REST)
 Responsável pela lógica de negócios e persistência de dados.
+- **Tecnologia**: **Node.js (TypeScript)**.
 - **Estilo Arquitetural**: Camadas (Layers).
-- **Tecnologia Sugerida**: Node.js (Express/NestJS), Python (Django/FastAPI) ou Java (Spring Boot).
 
 #### Camadas do Backend
 
@@ -50,12 +55,11 @@ Responsável pela lógica de negócios e persistência de dados.
 
 3.  **Infrastructure / Persistence Layer (Dados)**
     - Acesso ao Banco de Dados (Repositories / DAOs).
-    - Mapeamento Objeto-Relacional (ORM).
+    - Mapeamento Objeto-Relacional (ORM) - Prisma ou TypeORM.
     - Integrações externas (se houver).
 
 ### 3. Banco de Dados
-- **Tipo**: Relacional (SQL).
-- **Tecnologia Sugerida**: PostgreSQL ou MySQL.
+- **Tecnologia**: **PostgreSQL**.
 - **Justificativa**: Dados estruturados e relacionais (Reservas ligam Quartos e Hóspedes) exigem integridade referencial forte (Transactions, Foreign Keys).
 
 ---
@@ -64,7 +68,7 @@ Responsável pela lógica de negócios e persistência de dados.
 
 ```mermaid
 graph TD
-    User((Recepcionista)) -->|Acessa via Browser| Frontend[Frontend SPA]
+    User((Recepcionista)) -->|Acessa via Browser| Frontend[Frontend SPA (React)]
     
     subgraph "Navegador do Cliente"
         Frontend
@@ -72,7 +76,7 @@ graph TD
 
     Frontend -->|HTTPS / JSON| API[API Gateway / Load Balancer]
     
-    subgraph "Backend (Monolito Modular)"
+    subgraph "Backend Node.js (Monolito Modular)"
         API --> Controller[Controllers Layer]
         
         subgraph "Business Logic Modules"
@@ -89,7 +93,7 @@ graph TD
         ServiceReservas --> RepoReservas[Repositório Reservas]
     end
 
-    RepoQuartos --> DB[(Banco de Dados Relacional)]
+    RepoQuartos --> DB[(PostgreSQL)]
     RepoHospedes --> DB
     RepoReservas --> DB
 ```
@@ -98,19 +102,18 @@ graph TD
 
 ## Justificativa da Escolha Arquitetural
 
-A escolha pelo **Monolito Modular** é baseada nos seguintes pilares:
+A escolha pelo **Monolito Modular** com **Stack JS (React/Node)** é baseada nos seguintes pilares:
 
 ### 1. Desempenho (Performance)
-- **Latência Zero entre Módulos**: A comunicação entre serviços (ex: Reserva consultando disponibilidade de Quarto) ocorre em memória (chamada de função), o que é ordens de grandeza mais rápido do que chamadas de rede HTTP/gRPC exigidas em microserviços.
-- **Transações ACID**: O uso de um banco de dados relacional único permite transações atômicas nativas. Garantir consistência em reservas (travar quarto ao reservar) é trivial e performático, sem necessidade de padrões complexos como Sagas ou Two-Phase Commit.
-- **Cache Simplificado**: O compartilhamento de cache (Redis, por exemplo) é mais direto, pois todas as instâncias acessam os mesmos dados de referência.
+- **Latência Zero entre Módulos**: A comunicação entre serviços ocorre em memória, eliminando overhead de rede.
+- **Non-blocking I/O (Node.js)**: Ideal para sistemas com alto I/O como reservas (leitura/escrita em DB), otimizando o uso de recursos.
+- **Transações ACID**: O uso de PostgreSQL permite transações atômicas seguras e performáticas.
 
 ### 2. Escalabilidade
-- **Escalabilidade Horizontal**: Para um único hotel, o tráfego esperado não justifica escalar módulos independentemente (ex: escalar só o serviço de busca). O monolito pode ser escalado horizontalmente (múltiplas réplicas atrás de um Load Balancer) de forma simples e eficiente para lidar com picos de acesso.
-- **Simplicidade de Infraestrutura**: Não requer orquestradores complexos (Kubernetes com Service Mesh), reduzindo custos de nuvem e manutenção de infraestrutura.
+- **Escalabilidade Horizontal**: O Node.js escala bem horizontalmente com múltiplos processos (PM2 ou Cluster) atrás de um Load Balancer.
+- **Stateless**: O uso de JWT permite escalar instâncias do backend sem preocupação com sessões.
 
 ### 3. Manutenibilidade e Evolução
-- **Organização de Código**: Ao usar módulos bem definidos, mantemos o acoplamento baixo e a coesão alta. Cada equipe (ou desenvolvedor) pode trabalhar em um módulo com impacto controlado nos outros.
-- **Facilidade de Refatoração**: Mudar interfaces ou mover lógica entre módulos é uma operação de refatoração de código segura, apoiada pela IDE e compilador, ao invés de contratos de API distribuídos que exigem versionamento estrito.
-- **Testabilidade**: Testes de integração e end-to-end são muito mais fáceis de configurar e rodar em um ambiente único do que orquestrar múltiplos contêineres e bancos de dados.
-- **Curva de Aprendizado**: Para novos desenvolvedores, entender um codebase unificado e bem estruturado é mais rápido do que navegar por múltiplos repositórios e serviços.
+- **Linguagem Unificada (TypeScript)**: Reduz a carga cognitiva da equipe fullstack e permite compartilhamento de tipos/interfaces entre Frontend e Backend.
+- **Tipagem Estática**: O TypeScript previne uma classe inteira de erros comuns em runtime, crucial para a robustez de um sistema de reservas.
+- **Ecossistema Rico**: Bibliotecas maduras para React e Node.js aceleram o desenvolvimento.
