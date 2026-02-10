@@ -13,12 +13,14 @@
      - Há ar-condicionado (sim/não).
      - Há TV (sim/não).
      - Sessão "Camas" com tipo de cama (Solteiro, Casal King, Casal Queen).
+     - **Vinculado à História de Usuário 1**.
    - Listagem de quartos com as colunas:
      - Número do quarto.
      - Tipo do quarto.
      - Preço por diária.
      - Disponibilidade (Ocupado, Livre, Manutenção e Limpeza).
      - Botão para editar o quarto.
+     - **Vinculado à História de Usuário 2**.
 
 2. **Gestão de Hóspedes**:
    - Cadastro de hóspedes com os seguintes campos:
@@ -26,10 +28,12 @@
      - Sobrenome.
      - CPF.
      - Email.
+     - **Vinculado à História de Usuário 4**.
    - Listagem de hóspedes com as colunas:
      - Nome.
      - Sobrenome.
      - CPF.
+     - **Vinculado à História de Usuário 5**.
 
 3. **Gestão de Reservas**:
    - Listagem de reservas com as colunas:
@@ -38,10 +42,12 @@
      - Nome do hóspede.
      - Disponibilidade (Ocupado, Livre, Manutenção e Limpeza).
      - Botão para editar a reserva.
+     - **Vinculado à História de Usuário 6**.
 
 4. **Interface Web**:
    - Interface moderna com paleta de cores verde e azul.
    - Utilização de componentes modernos.
+   - **Vinculado à História de Usuário 8**.
 
 ---
 
@@ -53,9 +59,11 @@
 2. **Segurança**:
    - Dados sensíveis, como CPF e email, devem ser armazenados de forma segura.
    - O sistema deve implementar autenticação para acesso às funcionalidades.
+   - **Vinculado às Histórias de Usuário 9 e 10**.
 
 3. **Usabilidade**:
    - Interface intuitiva e responsiva para diferentes dispositivos.
+   - **Vinculado à História de Usuário 8**.
 
 4. **Manutenibilidade**:
    - O código deve ser modular e seguir boas práticas de desenvolvimento.
