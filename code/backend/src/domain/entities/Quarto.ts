@@ -1,6 +1,14 @@
 import { TipoQuarto, StatusQuarto, Cama, Comodidade } from '../types';
 
+/**
+ * Domain Entity: Quarto
+ * Implementa o padrão "Rich Domain Model".
+ * - Encapsula estado e comportamento.
+ * - Garante invariantes de negócio (validar via construtor e métodos).
+ * - Imutabilidade controlada (atributos privados, alterados apenas por métodos semânticos).
+ */
 export class Quarto {
+    // Encapsulamento: Propriedades privadas para impedir modificação direta externa.
     private id: string;
     private numero: string;
     private capacidade: number;
@@ -29,6 +37,7 @@ export class Quarto {
         this.camas = camas;
         this.comodidades = comodidades;
         
+        // Auto-validação: A entidade nunca deve existir em um estado inválido.
         this.validar();
     }
 
