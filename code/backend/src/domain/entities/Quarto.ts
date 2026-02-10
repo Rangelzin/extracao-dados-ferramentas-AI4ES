@@ -49,12 +49,46 @@ export class Quarto {
         return this.numero;
     }
 
+    public getCapacidade(): number {
+        return this.capacidade;
+    }
+
+    public getTipo(): TipoQuarto {
+        return this.tipo;
+    }
+
     public getStatus(): StatusQuarto {
         return this.status;
     }
 
     public getPrecoDiaria(): number {
         return this.precoDiaria;
+    }
+
+    public getCamas(): Cama[] {
+        return this.camas;
+    }
+
+    public getComodidades(): Comodidade[] {
+        return this.comodidades;
+    }
+
+    public atualizarDados(
+        numero?: string,
+        capacidade?: number,
+        tipo?: TipoQuarto,
+        precoDiaria?: number,
+        camas?: Cama[],
+        comodidades?: Comodidade[]
+    ): void {
+        if (numero) this.numero = numero;
+        if (capacidade) this.capacidade = capacidade;
+        if (tipo) this.tipo = tipo;
+        if (precoDiaria) this.precoDiaria = precoDiaria;
+        if (camas) this.camas = camas;
+        if (comodidades) this.comodidades = comodidades;
+
+        this.validar();
     }
 
     public isDisponivel(): boolean {

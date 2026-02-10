@@ -3,3 +3,5 @@
 /.zencoder
 /.zenflow
 
+# Pastas
+/code/backend/node_modules
