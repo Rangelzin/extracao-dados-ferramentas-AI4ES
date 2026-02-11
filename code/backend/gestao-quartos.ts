@@ -1,4 +1,4 @@
-import { TipoQuarto, StatusDisponibilidade, TipoCama, Cama, Quarto } from './domain-entities';
+import { TipoQuarto, StatusDisponibilidade, TipoCama, Cama, Quarto } from './domain-entities.js';
 
 /**
  * SRP: Interface segregada para persistência de quartos.
