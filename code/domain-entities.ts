@@ -1,3 +1,7 @@
+/**
+ * Enums para tipos e estados do domínio.
+ * O uso de string enums facilita a leitura em logs e no frontend.
+ */
 export enum TipoQuarto {
   BASICO = 'Básico',
   MODERNO = 'Moderno',
@@ -17,10 +21,17 @@ export enum TipoCama {
   CASAL_QUEEN = 'Casal Queen'
 }
 
+/**
+ * Entidade Cama: Representa a composição física de dormitório no Quarto.
+ */
 export class Cama {
   constructor(public tipo: TipoCama) {}
 }
 
+/**
+ * Entidade Quarto: Core do sistema.
+ * Segue o padrão de Domain Driven Design (DDD) onde a entidade contém seus dados.
+ */
 export class Quarto {
   constructor(
     public numero: string,
@@ -32,10 +43,14 @@ export class Quarto {
     public temArCondicionado: boolean,
     public temTV: boolean,
     public camas: Cama[],
+    // Status default inicial é LIVRE para novos quartos.
     public status: StatusDisponibilidade = StatusDisponibilidade.LIVRE
   ) {}
 }
 
+/**
+ * Entidade Hospede: Armazena informações de contato e identificação.
+ */
 export class Hospede {
   constructor(
     public nome: string,
@@ -45,6 +60,9 @@ export class Hospede {
   ) {}
 }
 
+/**
+ * Entidade Reserva: Agrega Quarto, Hospede e Período.
+ */
 export class Reserva {
   constructor(
     public id: string,
@@ -55,9 +73,14 @@ export class Reserva {
     public status: string = 'Confirmada'
   ) {}
 
+  /**
+   * Encapsulamento da lógica de cálculo de preço total.
+   * Centraliza a regra de negócio para evitar duplicação no frontend/backend.
+   */
   public calcularTotalPreco(): number {
     const diffTime = Math.abs(this.dataFim.getTime() - this.dataInicio.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays * this.quarto.precoDiaria;
+    // Se a reserva for no mesmo dia, cobramos ao menos uma diária (ceil).
+    return (diffDays || 1) * this.quarto.precoDiaria;
   }
 }
