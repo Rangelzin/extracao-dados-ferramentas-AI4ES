@@ -25,15 +25,8 @@ export class QuartoService {
             throw new Error(`Quarto com número ${input.numero} já existe.`);
         }
 
-        const camas: Cama[] = [];
-        if (input.camas) {
-            input.camas.forEach(c => {
-                // Decisão: Geramos IDs únicos para sub-entidades (Camas) para permitir rastreabilidade individual no futuro.
-                for (let i = 0; i < c.quantidade; i++) {
-                    camas.push({ id: randomUUID(), tipo: c.tipo });
-                }
-            });
-        }
+        // Refatorado: Lógica de geração extraída e simplificada
+        const camas = this.gerarCamas(input.camas);
 
         // Factory/Builder implícito: Construção da entidade com estado inicial válido.
         const novoQuarto = new Quarto(
@@ -59,14 +52,9 @@ export class QuartoService {
             throw new Error(`Quarto com ID ${id} não encontrado.`);
         }
 
+        // Refatorado: Reuso da lógica consistente
         // Transformação de Input DTO -> Value Objects / Entidades
-        // Uso de flatMap para converter a representação simplificada ({ tipo: 'Solteiro', qtd: 2 })
-        // para a representação interna de domínio (Array de objetos Cama individuais).
-        const novasCamas = input.camas 
-            ? input.camas.flatMap(c => 
-                Array(c.quantidade).fill(null).map(() => ({ id: randomUUID(), tipo: c.tipo } as Cama))
-            ) 
-            : undefined;
+        const novasCamas = input.camas ? this.gerarCamas(input.camas) : undefined;
 
         // Delegação para o Domínio: A entidade sabe como manter seus invariantes ao atualizar dados.
         quarto.atualizarDados(
@@ -87,5 +75,20 @@ export class QuartoService {
         const quartos = await this.quartoRepository.findAll();
         // Projeção eficiente de dados para o cliente.
         return quartos.map(q => QuartoMapper.toDTO(q));
+    }
+
+    /**
+     * Helper Privado: Responsável por transformar a entrada simplificada (Tipo + Qtd)
+     * em Entidades de Cama com identidade única.
+     */
+    private gerarCamas(camasInput?: { tipo: TipoCama; quantidade: number }[]): Cama[] {
+        if (!camasInput) return [];
+
+        return camasInput.flatMap(c =>
+            Array.from({ length: c.quantidade }, () => ({
+                id: randomUUID(),
+                tipo: c.tipo
+            }))
+        );
     }
 }
