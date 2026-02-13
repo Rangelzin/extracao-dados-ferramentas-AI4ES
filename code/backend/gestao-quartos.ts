@@ -1,4 +1,4 @@
-import { TipoQuarto, StatusDisponibilidade, TipoCama, Cama, Quarto } from './domain-entities.js';
+import { TipoQuarto, StatusDisponibilidade, TipoCama, Cama, Quarto, type CriarQuartoDTO } from './domain-entities.js';
 
 /**
  * SRP: Interface segregada para persistência de quartos.
@@ -42,22 +42,6 @@ export class QuartoRepositoryMemory implements IQuartoRepository {
     }
     this.quartos[index] = quarto;
   }
-}
-
-/**
- * Data Transfer Object (DTO) para criação de quartos.
- * Evita que o serviço dependa diretamente da estrutura interna da Entidade para entrada de dados.
- */
-export interface CriarQuartoDTO {
-  numero: string;
-  capacidade: number;
-  tipo: TipoQuarto;
-  precoDiaria: number;
-  temFrigobar: boolean;
-  temCafeIncluso: boolean;
-  temArCondicionado: boolean;
-  temTV: boolean;
-  tiposCama: TipoCama[];
 }
 
 /**

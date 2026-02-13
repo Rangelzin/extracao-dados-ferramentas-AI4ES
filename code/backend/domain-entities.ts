@@ -49,6 +49,22 @@ export class Quarto {
 }
 
 /**
+ * Data Transfer Object (DTO) para criação de quartos.
+ * Compartilhado entre Backend e Frontend para garantir integridade.
+ */
+export interface CriarQuartoDTO {
+  numero: string;
+  capacidade: number;
+  tipo: TipoQuarto;
+  precoDiaria: number;
+  temFrigobar: boolean;
+  temCafeIncluso: boolean;
+  temArCondicionado: boolean;
+  temTV: boolean;
+  tiposCama: TipoCama[];
+}
+
+/**
  * Entidade Hospede: Armazena informações de contato e identificação.
  */
 export class Hospede {
