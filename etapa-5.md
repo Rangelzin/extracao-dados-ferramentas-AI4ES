@@ -1,33 +1,22 @@
-### User Input
+# Registro da Etapa 5 - Operações
 
-Etapa 5 – Operações INICIANDO.... LEMBRE-SE QUALQUER DOCUMENTACAO GERAR ARQUIVO .MD
+## Conversa
 
-Proponha um pipeline de deploy para o sistema em questão (ex.: Docker + CI/CD).
+**Usuário:** Etapa 5 iniciando... Proponha um pipeline de deploy (Docker + CI/CD).
+**Assistente:** (Criou a proposta em [./docs/pipeline_deploy.md](./docs/pipeline_deploy.md)).
 
-*Edited relevant file*
+**Usuário:** Defina métricas e logs a serem monitorados.
+**Assistente:** (Definiu golden signals e padrão de logs em [./docs/monitoramento.md](./docs/monitoramento.md)).
 
-*Edited relevant file*
+**Usuário:** Descreva um procedimento de resposta a falhas (runbook).
+**Assistente:** (Criou o guia de resposta a incidentes em [./docs/runbook.md](./docs/runbook.md)).
 
-*User accepted the command `git add .`*
+**Usuário:** Etapa 5 finalizada, gerar transcrição.
+**Assistente:** (Gerou este arquivo de transcrição).
 
-*User accepted the command `git commit -m "docs: Etapa 5 - Plano de implantação" `*
+## Artefatos Gerados
 
-### User Input
-
-Defina métricas e logs a serem monitorados (disponibilidade, latência, erros).
-
-*Edited relevant file*
-
-*Edited relevant file*
-
-*User accepted the command `git add .`*
-
-*User accepted the command `git commit -m "docs: Etapa 5 - Monitoramento" `*
-
-### User Input
-
-Descreva um procedimento de resposta a falhas (runbook).
-
-*Edited relevant file*
-
-*Edited relevant file*
+- [./docs/pipeline_deploy.md](./docs/pipeline_deploy.md)
+- [./docs/monitoramento.md](./docs/monitoramento.md)
+- [./docs/runbook.md](./docs/runbook.md)
+- [./etapa-5.md](./etapa-5.md)
