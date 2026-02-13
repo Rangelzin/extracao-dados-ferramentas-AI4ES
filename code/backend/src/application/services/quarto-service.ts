@@ -52,7 +52,7 @@ export class QuartoService {
             throw new Error(`Quarto com ID ${id} não encontrado.`);
         }
 
-        // Refatorado: Reuso da lógica consistente
+        // Refatorado: Reuso lógica consistente
         // Transformação de Input DTO -> Value Objects / Entidades
         const novasCamas = input.camas ? this.gerarCamas(input.camas) : undefined;
 
@@ -83,8 +83,8 @@ export class QuartoService {
      */
     private gerarCamas(camasInput?: { tipo: TipoCama; quantidade: number }[]): Cama[] {
         if (!camasInput) return [];
-
-        return camasInput.flatMap(c =>
+        
+        return camasInput.flatMap(c => 
             Array.from({ length: c.quantidade }, () => ({
                 id: randomUUID(),
                 tipo: c.tipo
