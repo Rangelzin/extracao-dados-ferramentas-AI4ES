@@ -1,5 +1,6 @@
 # Pastas Temporárias 
+/**/node_modules
+/**/dist
 
 /.zencoder
 /.zenflow
-
