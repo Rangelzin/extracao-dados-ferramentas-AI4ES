@@ -1,75 +1,113 @@
+/**
+ * Gestão de Interface do Usuário - Sistema de Hotel.
+ * Decisão: Uso de Vanilla JS para evitar dependências pesadas e manter o código portável.
+ * Princípios: Separação de Preocupações (SoC) entre manipulação de DOM e chamadas de API.
+ */
+
 const API_URL = 'http://localhost:8080/api/quartos';
 
-// Elementos DOM
-const btnNovoQuarto = document.getElementById('btnNovoQuarto');
-const btnCancelar = document.getElementById('btnCancelar');
-const formQuartoSection = document.getElementById('formQuartoSection');
-const quartoForm = document.getElementById('quartoForm');
-const listaQuartosBody = document.getElementById('listaQuartosBody');
-const formTitle = document.getElementById('formTitle');
-const editOriginalNumero = document.getElementById('editOriginalNumero');
+// Elementos DOM (Cache para performance)
+const DOM = {
+    btnNovoQuarto: document.getElementById('btnNovoQuarto'),
+    btnCancelar: document.getElementById('btnCancelar'),
+    formSection: document.getElementById('formQuartoSection'),
+    form: document.getElementById('quartoForm'),
+    tableBody: document.getElementById('listaQuartosBody'),
+    formTitle: document.getElementById('formTitle'),
+    editId: document.getElementById('editOriginalNumero'),
+    inputs: {
+        numero: document.getElementById('numero'),
+        capacidade: document.getElementById('capacidade'),
+        tipo: document.getElementById('tipo'),
+        preco: document.getElementById('precoDiaria'),
+        frigobar: document.getElementById('temFrigobar'),
+        cafe: document.getElementById('temCafeIncluso'),
+        ar: document.getElementById('temArCondicionado'),
+        tv: document.getElementById('temTV'),
+        camas: () => document.querySelectorAll('input[name="tiposCama"]')
+    }
+};
 
 // Event Listeners
-btnNovoQuarto.addEventListener('click', () => {
-    resetForm();
-    formTitle.innerText = "Cadastrar Novo Quarto";
-    formQuartoSection.classList.remove('hidden');
-});
+DOM.btnNovoQuarto.addEventListener('click', () => toggleForm(true));
+DOM.btnCancelar.addEventListener('click', () => toggleForm(false));
+DOM.form.addEventListener('submit', handleFormSubmit);
 
-btnCancelar.addEventListener('click', () => {
-    formQuartoSection.classList.add('hidden');
-});
-
-quartoForm.addEventListener('submit', handleFormSubmit);
-
-// Funções Principais
-async function listarQuartos() {
-    try {
-        const response = await fetch(API_URL);
-        const quartos = await response.json();
-        renderQuartos(quartos);
-    } catch (error) {
-        console.error("Erro ao listar quartos:", error);
+/**
+ * Controla a exibição do formulário.
+ * @param {boolean} show 
+ */
+function toggleForm(show) {
+    if (show) {
+        resetForm();
+        DOM.formTitle.innerText = "Cadastrar Novo Quarto";
+        DOM.formSection.classList.remove('hidden');
+    } else {
+        DOM.formSection.classList.add('hidden');
     }
 }
 
+/**
+ * Busca e renderiza a lista de quartos.
+ * SRP: Foca apenas na orquestração da listagem.
+ */
+async function listarQuartos() {
+    try {
+        const response = await fetch(API_URL);
+        if (!response.ok) throw new Error("Erro ao buscar dados do servidor");
+        const quartos = await response.json();
+        renderQuartos(quartos);
+    } catch (error) {
+        showError("Falha na conexão: " + error.message);
+    }
+}
+
+/**
+ * Manipula a renderização da tabela.
+ * @param {Array} quartos 
+ */
 function renderQuartos(quartos) {
-    listaQuartosBody.innerHTML = '';
+    DOM.tableBody.innerHTML = '';
     quartos.forEach(q => {
         const tr = document.createElement('tr');
+        tr.className = 'hover-row';
         tr.innerHTML = `
             <td><strong>#${q.numero}</strong></td>
             <td>${q.tipo}</td>
             <td>R$ ${q.precoDiaria.toFixed(2)}</td>
             <td><span class="badge badge-${q.disponibilidade}">${q.disponibilidade}</span></td>
             <td>
-                <button onclick="prepararEdicao('${q.numero}')" class="btn btn-outline" style="padding: 0.5rem 1rem;">✏️ Editar</button>
+                <button onclick="prepararEdicao('${q.numero}')" class="btn btn-outline">✏️ Editar</button>
             </td>
         `;
-        listaQuartosBody.appendChild(tr);
+        DOM.tableBody.appendChild(tr);
     });
 }
 
+/**
+ * Processa o envio do formulário (Create/Update).
+ */
 async function handleFormSubmit(e) {
     e.preventDefault();
 
-    const selectedCamas = Array.from(document.querySelectorAll('input[name="tiposCama"]:checked'))
+    const selectedCamas = Array.from(DOM.inputs.camas())
+        .filter(cb => cb.checked)
         .map(cb => cb.value);
 
     const quartoData = {
-        numero: document.getElementById('numero').value,
-        capacidade: parseInt(document.getElementById('capacidade').value),
-        tipo: document.getElementById('tipo').value,
-        precoDiaria: parseFloat(document.getElementById('precoDiaria').value),
-        temFrigobar: document.getElementById('temFrigobar').checked,
-        temCafeIncluso: document.getElementById('temCafeIncluso').checked,
-        temArCondicionado: document.getElementById('temArCondicionado').checked,
-        temTV: document.getElementById('temTV').checked,
+        numero: DOM.inputs.numero.value,
+        capacidade: parseInt(DOM.inputs.capacidade.value),
+        tipo: DOM.inputs.tipo.value,
+        precoDiaria: parseFloat(DOM.inputs.preco.value),
+        temFrigobar: DOM.inputs.frigobar.checked,
+        temCafeIncluso: DOM.inputs.cafe.checked,
+        temArCondicionado: DOM.inputs.ar.checked,
+        temTV: DOM.inputs.tv.checked,
         tiposCama: selectedCamas
     };
 
-    const isEdit = editOriginalNumero.value !== "";
-    const url = isEdit ? `${API_URL}/${editOriginalNumero.value}` : API_URL;
+    const isEdit = DOM.editId.value !== "";
+    const url = isEdit ? `${API_URL}/${DOM.editId.value}` : API_URL;
     const method = isEdit ? 'PUT' : 'POST';
 
     try {
@@ -80,57 +118,61 @@ async function handleFormSubmit(e) {
         });
 
         if (response.ok) {
-            formQuartoSection.classList.add('hidden');
+            toggleForm(false);
             listarQuartos();
-            resetForm();
         } else {
             const error = await response.json();
-            alert("Erro: " + (error.message || "Falha ao salvar quarto"));
+            showError(error.message || "Erro ao salvar dados");
         }
     } catch (error) {
-        console.error("Erro ao salvar:", error);
-        alert("Erro de conexão com o servidor");
+        showError("Erro de comunicação com a API");
     }
 }
 
+/**
+ * Preenche o formulário para edição.
+ * @param {string} numero 
+ */
 async function prepararEdicao(numero) {
     try {
-        // Como o backend atualmente não tem um GET /numero (vamos listar tudo e achar o objeto localmente para simplificar ou adaptar o fetch)
         const response = await fetch(API_URL);
         const quartos = await response.json();
         const q = quartos.find(item => item.numero === numero);
 
         if (q) {
-            formTitle.innerText = "Editar Quarto #" + q.numero;
-            editOriginalNumero.value = q.numero;
+            DOM.formTitle.innerText = "Editar Quarto #" + q.numero;
+            DOM.editId.value = q.numero;
             
-            document.getElementById('numero').value = q.numero;
-            document.getElementById('capacidade').value = q.capacidade;
-            document.getElementById('tipo').value = q.tipo;
-            document.getElementById('precoDiaria').value = q.precoDiaria;
-            document.getElementById('temFrigobar').checked = q.temFrigobar;
-            document.getElementById('temCafeIncluso').checked = q.temCafeIncluso;
-            document.getElementById('temArCondicionado').checked = q.temArCondicionado;
-            document.getElementById('temTV').checked = q.temTV;
+            DOM.inputs.numero.value = q.numero;
+            DOM.inputs.capacidade.value = q.capacidade;
+            DOM.inputs.tipo.value = q.tipo;
+            DOM.inputs.preco.value = q.precoDiaria;
+            DOM.inputs.frigobar.checked = q.temFrigobar;
+            DOM.inputs.cafe.checked = q.temCafeIncluso;
+            DOM.inputs.ar.checked = q.temArCondicionado;
+            DOM.inputs.tv.checked = q.temTV;
 
-            // Limpar e marcar camas
-            document.querySelectorAll('input[name="tiposCama"]').forEach(cb => {
+            DOM.inputs.camas().forEach(cb => {
                 cb.checked = q.tiposCama.includes(cb.value);
             });
 
-            formQuartoSection.classList.remove('hidden');
+            DOM.formSection.classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     } catch (error) {
-        console.error("Erro ao carregar dados para edição:", error);
+        showError("Erro ao carregar quarto para edição");
     }
 }
 
 function resetForm() {
-    quartoForm.reset();
-    editOriginalNumero.value = "";
-    document.querySelectorAll('input[name="tiposCama"]').forEach(cb => cb.checked = false);
+    DOM.form.reset();
+    DOM.editId.value = "";
+}
+
+function showError(msg) {
+    console.error(msg);
+    alert(msg);
 }
 
 // Inicialização
-listarQuartos();
+document.addEventListener('DOMContentLoaded', listarQuartos);

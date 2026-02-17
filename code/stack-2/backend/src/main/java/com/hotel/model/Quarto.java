@@ -6,7 +6,9 @@ import com.hotel.enums.TipoCama;
 import java.util.List;
 
 /**
- * Entidade que representa um Quarto do hotel.
+ * Entidade de Domínio Quarto.
+ * Segue o Princípio da Responsabilidade Única (SRP): representa apenas os dados e estado de um quarto.
+ * Encapsulamento: Atributos privados com getters e setters públicos.
  */
 public class Quarto {
     private String numero;
@@ -20,8 +22,14 @@ public class Quarto {
     private List<TipoCama> tiposCama;
     private StatusDisponibilidade disponibilidade;
 
-    public Quarto() {}
+    public Quarto() {
+        // Construtor padrão necessário para frameworks de serialização (Jackson)
+    }
 
+    /**
+     * Construtor de conveniência para criação inicial.
+     * Decisão: Status inicial é sempre LIVRE por regra de negócio.
+     */
     public Quarto(String numero, int capacidade, TipoQuarto tipo, double precoDiaria) {
         this.numero = numero;
         this.capacidade = capacidade;
@@ -30,7 +38,7 @@ public class Quarto {
         this.disponibilidade = StatusDisponibilidade.LIVRE;
     }
 
-    // Getters e Setters
+    // Getters e Setters (Encapsulamento)
     public String getNumero() { return numero; }
     public void setNumero(String numero) { this.numero = numero; }
 

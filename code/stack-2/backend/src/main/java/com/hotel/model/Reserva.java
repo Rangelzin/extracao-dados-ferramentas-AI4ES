@@ -3,7 +3,10 @@ package com.hotel.model;
 import java.time.LocalDateTime;
 
 /**
- * Entidade que representa uma Reserva no hotel.
+ * Entidade de Domínio Reserva.
+ * Orquestra a relação entre Hóspede e Quarto.
+ * Decisão: Armazena referências (número/cpf) em vez de objetos completos para 
+ * simplificar a persistência inicial e evitar acoplamento excessivo.
  */
 public class Reserva {
     private String id;
@@ -12,7 +15,9 @@ public class Reserva {
     private LocalDateTime dataEntrada;
     private LocalDateTime dataSaida;
 
-    public Reserva() {}
+    public Reserva() {
+        // Necessário para desserialização
+    }
 
     public Reserva(String id, String numeroQuarto, String cpfHospede) {
         this.id = id;

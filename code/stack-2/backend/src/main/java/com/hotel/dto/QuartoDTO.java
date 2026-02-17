@@ -5,6 +5,11 @@ import com.hotel.enums.TipoCama;
 import jakarta.validation.constraints.*;
 import java.util.List;
 
+/**
+ * Data Transfer Object (DTO) para Quarto.
+ * Decisão: Uso de Record (Java 16+) para imutabilidade e concisão.
+ * SOLID: Aplica o isolamento da camada de transporte em relação ao domínio.
+ */
 public record QuartoDTO(
     @NotBlank(message = "Número do quarto é obrigatório")
     String numero,

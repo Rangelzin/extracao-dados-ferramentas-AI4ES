@@ -1,7 +1,9 @@
 package com.hotel.model;
 
 /**
- * Entidade que representa um Hóspede do hotel.
+ * Entidade de Domínio Hóspede.
+ * Representa o cliente do hotel.
+ * Decisão: CPF é utilizado como identificador único natural nas regras de negócio.
  */
 public class Hospede {
     private String nome;
@@ -9,7 +11,9 @@ public class Hospede {
     private String cpf;
     private String email;
 
-    public Hospede() {}
+    public Hospede() {
+        // Necessário para desserialização
+    }
 
     public Hospede(String nome, String sobrenome, String cpf, String email) {
         this.nome = nome;
