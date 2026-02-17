@@ -1,6 +1,11 @@
-com/hotel/enums/StatusDisponibilidade.class
 com/hotel/enums/TipoQuarto.class
+com/hotel/service/QuartoService.class
+com/hotel/controller/QuartoController.class
+com/hotel/repository/QuartoRepository.class
+com/hotel/dto/QuartoDTO.class
+com/hotel/model/Quarto.class
+com/hotel/enums/StatusDisponibilidade.class
+com/hotel/SistemaReservaApplication.class
 com/hotel/model/Reserva.class
 com/hotel/enums/TipoCama.class
-com/hotel/model/Quarto.class
 com/hotel/model/Hospede.class
