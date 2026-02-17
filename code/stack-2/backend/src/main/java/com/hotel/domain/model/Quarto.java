@@ -29,7 +29,7 @@ public class Quarto {
     private TipoCama tipo; // Pode ser redundante se tiver lista de camas, mas mantendo compatibilidade com DTO simplificado
 
     @Column(nullable = false)
-    private BigDecimal precoDiaria;
+    private BigDecimal precoPorHora;
 
     @Enumerated(EnumType.STRING)
     private StatusQuarto status;
@@ -48,5 +48,10 @@ public class Quarto {
 
     public void liberar() {
         this.status = StatusQuarto.LIMPEZA; // Workflow: Ocupado -> Limpeza -> Livre
+    }
+
+    // Getter for price to keep compatibility if needed or just standard getter
+    public BigDecimal getPrecoPorHora() {
+        return precoPorHora;
     }
 }

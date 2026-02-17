@@ -43,7 +43,10 @@ public class Reserva {
         if (quarto != null && dataCheckIn != null && dataCheckOut != null) {
             long dias = ChronoUnit.DAYS.between(dataCheckIn, dataCheckOut);
             if (dias < 1) dias = 1; // Mínimo 1 diária
-            this.valorTotal = quarto.getPrecoDiaria().multiply(BigDecimal.valueOf(dias));
+            // Preço por hora * 24 horas * dias
+            this.valorTotal = quarto.getPrecoPorHora()
+                    .multiply(BigDecimal.valueOf(24))
+                    .multiply(BigDecimal.valueOf(dias));
         }
     }
 
