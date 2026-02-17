@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Hotel - Stack 2</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🏨 Sistema de Hotel</h1>
+            <p>Gerenciamento de Quartos (Java + Spring API)</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Formulário de Cadastro -->
+        <section class="card form-section">
+            <h2>Novo Quarto</h2>
+            <form id="quartoForm">
+                <div class="form-group">
+                    <label for="numero">Número</label>
+                    <input type="number" id="numero" required placeholder="Ex: 101">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="capacidade">Capacidade</label>
+                        <input type="number" id="capacidade" required min="1" value="2">
+                    </div>
+                    <div class="form-group">
+                        <label for="tipo">Tipo</label>
+                        <select id="tipo" required>
+                            <option value="SOLTEIRO">Solteiro</option>
+                            <option value="CASAL">Casal</option>
+                            <option value="QUEEN">Queen</option>
+                            <option value="KING">King</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="preco">Preço por Hora (R$)</label>
+                    <input type="number" id="preco" required step="0.01" min="0" placeholder="0.00">
+                </div>
+
+                <div class="form-group">
+                    <label>Camas</label>
+                    <div id="camasContainer" class="camas-container">
+                        <!-- Camas dinâmicas aqui (mvp: 1 cama default) -->
+                         <div class="cama-item">
+                            <select class="cama-tipo">
+                                <option value="SOLTEIRO">Solteiro</option>
+                                <option value="CASAL" selected>Casal</option>
+                                <option value="QUEEN">Queen</option>
+                                <option value="KING">King</option>
+                            </select>
+                            <input type="number" class="cama-qtd" value="1" min="1" max="5">
+                         </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary">Cadastrar Quarto</button>
+            </form>
+        </section>
+
+        <!-- Lista de Quartos -->
+        <section class="list-section">
+            <div class="list-header">
+                <h2>Quartos Disponíveis</h2>
+                <button id="btnAtualizar" class="btn-secondary">Atualizar</button>
+            </div>
+            
+            <div id="loading" class="hidden">Carregando...</div>
+            <div id="quartosGrid" class="quartos-grid">
+                <!-- Cards de quartos serão inseridos aqui via JS -->
+            </div>
+        </section>
+    </main>
+
+    <div id="toast" class="toast hidden">Operação realizada com sucesso!</div>
+
+    <script src="app.js"></script>
+</body>
+</html>
