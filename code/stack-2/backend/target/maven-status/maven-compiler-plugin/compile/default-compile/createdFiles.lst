@@ -1,0 +1,6 @@
+com/hotel/enums/StatusDisponibilidade.class
+com/hotel/enums/TipoQuarto.class
+com/hotel/model/Reserva.class
+com/hotel/enums/TipoCama.class
+com/hotel/model/Quarto.class
+com/hotel/model/Hospede.class
