@@ -1,0 +1,8 @@
+com/hotel/domain/model/StatusReserva.class
+com/hotel/domain/model/StatusQuarto.class
+com/hotel/domain/model/Cama.class
+com/hotel/domain/model/Reserva.class
+com/hotel/domain/model/Quarto.class
+com/hotel/domain/model/TipoCama.class
+com/hotel/domain/model/Hospede.class
+com/hotel/BackendApplication.class
