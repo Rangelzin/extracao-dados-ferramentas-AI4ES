@@ -1,8 +1,9 @@
 /home/rangel/estudos/dev/labs/extracao-dados-ferramentas-AI4ES/code/stack-2/backend/src/main/java/com/hotel/service/QuartoService.java
-/home/rangel/estudos/dev/labs/extracao-dados-ferramentas-AI4ES/code/stack-2/backend/src/main/java/com/hotel/enums/StatusDisponibilidade.java
+/home/rangel/estudos/dev/labs/extracao-dados-ferramentas-AI4ES/code/stack-2/backend/src/main/java/com/hotel/repository/IQuartoRepository.java
 /home/rangel/estudos/dev/labs/extracao-dados-ferramentas-AI4ES/code/stack-2/backend/src/main/java/com/hotel/SistemaReservaApplication.java
-/home/rangel/estudos/dev/labs/extracao-dados-ferramentas-AI4ES/code/stack-2/backend/src/main/java/com/hotel/enums/TipoCama.java
+/home/rangel/estudos/dev/labs/extracao-dados-ferramentas-AI4ES/code/stack-2/backend/src/main/java/com/hotel/enums/StatusDisponibilidade.java
 /home/rangel/estudos/dev/labs/extracao-dados-ferramentas-AI4ES/code/stack-2/backend/src/main/java/com/hotel/dto/QuartoDTO.java
+/home/rangel/estudos/dev/labs/extracao-dados-ferramentas-AI4ES/code/stack-2/backend/src/main/java/com/hotel/enums/TipoCama.java
 /home/rangel/estudos/dev/labs/extracao-dados-ferramentas-AI4ES/code/stack-2/backend/src/main/java/com/hotel/controller/QuartoController.java
 /home/rangel/estudos/dev/labs/extracao-dados-ferramentas-AI4ES/code/stack-2/backend/src/main/java/com/hotel/model/Hospede.java
 /home/rangel/estudos/dev/labs/extracao-dados-ferramentas-AI4ES/code/stack-2/backend/src/main/java/com/hotel/repository/QuartoRepository.java
