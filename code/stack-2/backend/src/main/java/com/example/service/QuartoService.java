@@ -10,14 +10,19 @@ import java.util.Optional;
 @Service
 public class QuartoService {
 
+    // Service layer for managing room-related business logic
+
     private final List<Quarto> quartos = new ArrayList<>();
+    // In-memory storage for rooms; can be replaced with a database in the future
 
     public Quarto cadastrarQuarto(Quarto quarto) {
+        // Adds a new room to the list
         quartos.add(quarto);
         return quarto;
     }
 
     public Optional<Quarto> editarQuarto(Long id, Quarto quartoAtualizado) {
+        // Updates the details of an existing room
         for (Quarto quarto : quartos) {
             if (quarto.getId().equals(id)) {
                 quarto.setTipo(quartoAtualizado.getTipo());
@@ -31,6 +36,7 @@ public class QuartoService {
     }
 
     public List<Quarto> listarQuartos() {
+        // Retrieves the list of all rooms
         return quartos;
     }
 }

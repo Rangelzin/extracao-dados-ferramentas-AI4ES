@@ -4,25 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Quarto {
+    // Unique identifier for the room
     private Long id;
-    private String tipo;
-    private Double preco;
-    private List<String> camas;
-    private String disponibilidade; // Ocupado, Livre, Manutenção, Limpeza
-    private String localizacao; // Ex: "Sala 1", "Sala 2", "Sala 3"
-    private String descricao; // Ex: "Quarto com vista para o mar"
 
+    // Type of the room (e.g., Deluxe, Standard)
+    private String tipo;
+
+    // Price per hour for the room
+    private Double preco;
+
+    // List of bed types available in the room
+    private List<String> camas;
+
+    // Availability status of the room (e.g., Livre, Ocupado)
+    private String disponibilidade;
+
+    // Default constructor initializes default values for new rooms
     public Quarto() {
         this.camas = new ArrayList<>();
         this.disponibilidade = "Livre";
     }
 
-    public Quarto(Long id, String tipo, Double preco) {
-        this.id = id;
-        this.tipo = tipo;
-        this.preco = preco;
-    }
-
+    // Parameterized constructor for creating a room with specific attributes
     public Quarto(Long id, String tipo, Double preco, List<String> camas, String disponibilidade) {
         this.id = id;
         this.tipo = tipo;
@@ -31,14 +34,7 @@ public class Quarto {
         this.disponibilidade = disponibilidade;
     }
 
-    public Quarto(Long id, String tipo, Double preco, String localizacao, String descricao) {
-        this.id = id;
-        this.tipo = tipo;
-        this.preco = preco;
-        this.localizacao = localizacao;
-        this.descricao = descricao;
-    }
-
+    // Getters and setters follow the principle of encapsulation
     public Long getId() {
         return id;
     }
@@ -79,32 +75,16 @@ public class Quarto {
         this.disponibilidade = disponibilidade;
     }
 
-    public String getLocalizacao() {
-        return localizacao;
-    }
-
-    public void setLocalizacao(String localizacao) {
-        this.localizacao = localizacao;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
     @Override
     public String toString() {
+        // Provides a string representation of the Quarto object for debugging and
+        // logging
         return "Quarto{" +
                 "id=" + id +
                 ", tipo='" + tipo + '\'' +
                 ", preco=" + preco +
                 ", camas=" + camas +
                 ", disponibilidade='" + disponibilidade + '\'' +
-                ", localizacao='" + localizacao + '\'' +
-                ", descricao='" + descricao + '\'' +
                 '}';
     }
 }
