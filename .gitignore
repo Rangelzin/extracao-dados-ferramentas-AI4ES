@@ -1,7 +1,6 @@
 # Pastas Temporárias 
 
-/code/frontend/node_modules
-/code/backend/node_modules
+/**/node_modules
 
 /.zencoder
 /.zenflow
