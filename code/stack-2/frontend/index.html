@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Quartos</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Gestão de Quartos</h1>
+    </header>
+    <main>
+        <section id="form-section">
+            <h2>Cadastrar Quarto</h2>
+            <form id="room-form" aria-label="Formulário de Cadastro de Quarto">
+                <div class="form-group">
+                    <label for="room-id">ID:</label>
+                    <input type="number" id="room-id" name="id" placeholder="Ex: 101" required>
+                    <small class="error-message" id="error-id"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="room-type">Tipo:</label>
+                    <input type="text" id="room-type" name="tipo" placeholder="Ex: Deluxe" required>
+                    <small class="error-message" id="error-type"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="room-price">Preço por Hora:</label>
+                    <input type="number" id="room-price" name="preco" step="0.01" placeholder="Ex: 150.00" required>
+                    <small class="error-message" id="error-price"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="room-beds">Camas:</label>
+                    <input type="text" id="room-beds" name="camas" placeholder="Ex: King, Solteiro" required>
+                    <small class="error-message" id="error-beds"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="room-status">Disponibilidade:</label>
+                    <select id="room-status" name="disponibilidade">
+                        <option value="Livre">Livre</option>
+                        <option value="Ocupado">Ocupado</option>
+                        <option value="Manutenção">Manutenção</option>
+                        <option value="Limpeza">Limpeza</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn">Cadastrar</button>
+            </form>
+            <div id="form-feedback" class="feedback"></div>
+        </section>
+
+        <section id="list-section">
+            <h2>Lista de Quartos</h2>
+            <button id="fetch-rooms" class="btn">Atualizar Lista</button>
+            <ul id="room-list" aria-live="polite"></ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gestão de Quartos. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="js/scripts.js"></script>
+</body>
+</html>

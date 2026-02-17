@@ -1,6 +1,7 @@
 com/example/model/Hospede.class
-com/example/controller/QuartoController.class
-com/example/service/QuartoService.class
 com/example/model/Reserva.class
 com/example/model/Quarto.class
 com/example/HotelReservationApplication.class
+com/example/WebConfig.class
+com/example/controller/QuartoController.class
+com/example/service/QuartoService.class

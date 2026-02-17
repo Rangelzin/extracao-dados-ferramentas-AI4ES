@@ -43,4 +43,9 @@ public class QuartoController {
         // Endpoint to retrieve all rooms
         return ResponseEntity.ok(quartoService.listarQuartos());
     }
+
+    @RequestMapping(method = RequestMethod.OPTIONS)
+    public ResponseEntity<Void> handleOptions() {
+        return ResponseEntity.ok().build();
+    }
 }
