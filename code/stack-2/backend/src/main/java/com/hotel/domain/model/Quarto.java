@@ -38,7 +38,19 @@ public class Quarto {
     @JoinColumn(name = "quarto_id") // Unidirectional OneToMany is simpler for this case
     private List<Cama> camas = new ArrayList<>();
 
-    // Business Logic Methods
+    // =========================================================================
+    // Domain Logic (Rich Domain Model)
+    // =========================================================================
+    // Decisão de Design:
+    // A entidade não deve ser apenas uma estrutura de dados (Anemic Model).
+    // Ela deve encapsular regras de negócio que garantam seus invariantes.
+    // =========================================================================
+
+    /**
+     * Ocupa o quarto, alterando seu status.
+     * 
+     * @throws IllegalStateException se o quarto não estiver livre.
+     */
     public void ocupar() {
         if (this.status != StatusQuarto.LIVRE) {
             throw new IllegalStateException("Quarto não está livre para ser ocupado.");

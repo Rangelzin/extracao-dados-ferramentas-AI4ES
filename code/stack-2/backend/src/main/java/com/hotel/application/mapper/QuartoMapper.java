@@ -13,6 +13,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+/**
+ * Mapper responsible for converting between Domain Entities and Data Transfer
+ * Objects (DTOs).
+ * <p>
+ * **Design Decision**:
+ * - Decouples the API contract (DTO) from the internal Domain Model.
+ * - Allows the Domain Model to evolve without breaking external clients
+ * (OCP/Stability).
+ * - Implemented manually here for explicit transformation logic, though tools
+ * like MapStruct could be used.
+ * </p>
+ */
 public class QuartoMapper {
 
     public Quarto toEntity(CreateQuartoDTO dto) {

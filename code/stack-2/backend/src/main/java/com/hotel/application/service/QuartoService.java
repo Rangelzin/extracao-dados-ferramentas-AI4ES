@@ -16,11 +16,26 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+/**
+ * Service Layer (Business Logic) for Quarto Management.
+ * <p>
+ * SOLID Principles applied:
+ * - **SRP (Single Responsibility Principle)**: This class is solely responsible
+ * for the business use cases of functionality related to 'Quartos'.
+ * - **DIP (Dependency Inversion Principle)**: It depends on abstractions
+ * (QuartoRepository interface) rather than concrete implementations (via Spring
+ * DI).
+ * </p>
+ */
 public class QuartoService {
 
     private final QuartoRepository quartoRepository;
     private final QuartoMapper quartoMapper;
 
+    /**
+     * Creates a new Quarto.
+     * Transactional context ensures atomicity.
+     */
     @Transactional
     public QuartoDTO criarQuarto(CreateQuartoDTO input) {
         if (quartoRepository.findByNumero(input.getNumero()).isPresent()) {

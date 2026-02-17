@@ -16,6 +16,16 @@ import java.util.UUID;
 @RequestMapping("/api/quartos")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*") // Allow frontend access
+/**
+ * Infrastructure Layer (Interface Adapter).
+ * <p>
+ * Responsibilities:
+ * - Receive HTTP requests and validate inputs (@Valid).
+ * - Convert HTTP-specific data to Application DTOs.
+ * - Delegate work to the Service Layer.
+ * - **Clean Code**: Keeps the controller 'thin', containing no business logic.
+ * </p>
+ */
 public class QuartoController {
 
     private final QuartoService quartoService;
